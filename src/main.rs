@@ -1,7 +1,12 @@
-use rust_wordle;
+use std::process;
+
+use rust_wordle::CurrentGame;
 
 fn main() {
-    let selected_word = rust_wordle::select_word();
+    let game = CurrentGame::new().unwrap_or_else(|err| {
+        eprintln!("Failed at: {}", err);
+        process::exit(1);
+    });
 
-    println!("The selected word was: {}", selected_word);
+    println!("The current game is: {:?}", game);
 }

@@ -1,11 +1,11 @@
 use rand::Rng;
-use std::error::Error;
 
 const WORDS: [&str; 20] = [
     "candy", "water", "crane", "royal", "piano", "jazzy", "pizza", "lunch", "sharp", "serve",
     "stone", "earth", "actor", "above", "bench", "delay", "faith", "paint", "order", "woman",
 ];
 
+#[derive(Debug)]
 pub struct CurrentGame {
     pub current_word: String,
     pub current_guess: String,
@@ -13,14 +13,14 @@ pub struct CurrentGame {
 }
 
 impl CurrentGame {
-    pub fn new() -> Result<CurrentGame, _> {
+    pub fn new() -> Result<CurrentGame, &'static str> {
         let current_word = select_word();
         let current_guess = "";
         let trials = 5;
 
         Ok(CurrentGame {
             current_word,
-            current_guess,
+            current_guess: current_guess.to_string(),
             trials,
         })
     }
