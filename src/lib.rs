@@ -32,14 +32,41 @@ pub fn select_word() -> String {
     WORDS[rand_index].to_string()
 }
 
+pub fn compare_words(current_word: &str, current_guess: &str) -> (bool, Vec<char>, Vec<char>) {
+    let mut is_equal = true;
+    let mut valid_chars: Vec<char> = Vec::new();
+    let mut invalid_chars: Vec<char> = Vec::new();
+
+    for i in 0..5 {
+        if !(current_guess.chars().nth(i) == current_word.chars().nth(i)) {
+            is_equal = false;
+        }
+        if current_word.contains(current_guess.chars().nth(i).unwrap()) {
+            valid_chars.push(current_guess.chars().nth(i).unwrap())
+        } else {
+            invalid_chars.push(current_guess.chars().nth(i).unwrap())
+        }
+    }
+
+    (is_equal, valid_chars, invalid_chars)
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::WORDS;
+    use crate::{compare_words, WORDS};
 
     #[test]
     fn should_choose_random_word() {
         let rand_index = 11;
 
         assert_eq!("earth", WORDS[rand_index])
+    }
+
+    #[test]
+    fn current_guess_to_be_equal() {
+        let current_word = "crane";
+        let current_guess = "crane";
+
+        assert_eq!(true, compare_words(&current_word, &current_guess).0);
     }
 }

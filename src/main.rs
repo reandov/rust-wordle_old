@@ -1,7 +1,7 @@
-use std::cmp::Eq;
 use std::io;
 use std::process;
 
+use rust_wordle::compare_words;
 use rust_wordle::CurrentGame;
 
 fn main() {
@@ -15,23 +15,25 @@ fn main() {
     loop {
         println!("Input your word");
 
-        let mut guess = String::new();
+        let mut current_guess = String::new();
 
         io::stdin()
-            .read_line(&mut guess)
-            .expect("Failed to read guess.");
+            .read_line(&mut current_guess)
+            .expect("Failed to read current_guess.");
 
-        let guess: String = match guess.trim().to_lowercase().parse() {
+        let current_guess: String = match current_guess.trim().to_lowercase().parse() {
             Ok(str) => str,
             Err(_) => continue,
         };
 
         println!(
-            "Your guess: {}. Current word: {}. It's equal? {}",
-            guess,
+            "Your current_guess: {}. Current word: {}. It's equal? {}",
+            current_guess,
             game.current_word,
-            guess.eq(&game.current_word)
+            current_guess.eq(&game.current_word)
         );
+
+        println!("{:?}", compare_words(&game.current_word, &current_guess));
 
         break;
     }
